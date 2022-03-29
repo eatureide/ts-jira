@@ -20,7 +20,7 @@ export const login = (data: { username: string, password: string }) => {
         if (reponse.ok) {
             return handleUserReponse(await reponse.json())
         } else {
-            return Promise.reject(data)
+            return Promise.reject(await reponse.json())
         }
     })
 }
@@ -36,7 +36,7 @@ export const register = (data: { username: string, password: string }) => {
         if (reponse.ok) {
             return handleUserReponse(await reponse.json())
         } else {
-            return Promise.reject(data)
+            return Promise.reject(await reponse.json())
         }
     })
 }
