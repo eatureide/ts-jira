@@ -12,7 +12,13 @@ const defaultInitialState: State<null> = {
     error: null
 }
 
-export const useAsync = <D>(initialState?: State<D>) => {
+const defualtConfig = {
+    throwOnError: false
+}
+
+export const useAsync = <D>(initialState?: State<D>, initialConfig?: typeof defualtConfig) => {
+
+    const config = { ...defualtConfig, ...initialConfig }
     const [state, setState] = useState<State<D>>({
         ...defaultInitialState,
         ...initialState
@@ -40,13 +46,19 @@ export const useAsync = <D>(initialState?: State<D>) => {
             throw new Error('请传入promise类型数据')
         }
         setState({ ...state, stat: 'loading' })
-        return promise.then((data) => {
-            setData(data)
-            return data
-        }).catch((error) => {
-            setError(error)
-            return error
-        })
+        return promise
+            .then((data) => {
+                setData(data)
+                return data
+            })
+            // catch会消化异常，如果不主动抛出，外面是接收不到异常的
+            .catch((error) => {
+                setError(error)
+                if (config.throwOnError) {
+                    return Promise.reject(error)
+                }
+                return error
+            })
     }
 
     return {
