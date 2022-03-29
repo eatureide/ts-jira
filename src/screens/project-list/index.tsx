@@ -1,14 +1,13 @@
-import React, { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { SearchPanal } from './search-panal'
 import { List } from './list'
 import { cleanObject, useMount, useDebounse } from 'utils'
-import qs from 'qs'
 import { useHttp } from 'utils/http'
+import styled from '@emotion/styled'
 
 
 // 使用js的同学，大部分的错都是在runtime时发现的
 // 我们希望在静态代码中，就能找到其中的一些错误->强类型
-const apiUrl = process.env.REACT_APP_API_URL
 
 export const ProjectListScreen = () => {
     const [users, setUsers] = useState([])
@@ -28,11 +27,16 @@ export const ProjectListScreen = () => {
     useMount(() => {
         client('users').then(setUsers)
     })
-
+ 
     return (
-        <div>
+        <Container>
+            <h1>项目列表</h1>
             <SearchPanal users={users} param={param} setparam={setparam} />
             <List users={users} list={list} />
-        </div>
+        </Container>
     )
 }
+
+const Container = styled.div`
+    padding:3.2rem;
+`
