@@ -1,14 +1,13 @@
 import { useEffect, useState } from 'react'
 
+export const isVioid = (value: unknown) => value === undefined || value === null || value === ''
 export const isFalsy = (value: unknown) => value === 0 ? false : !value
 
-export const cleanObject = (object: object) => {
+export const cleanObject = (object: { [key: string]: unknown }) => {
     const result = { ...object }
     Object.keys(result).forEach((key) => {
-        // @ts-ignore
         const value = object[key]
-        if (isFalsy(value)) {
-            // @ts-ignore
+        if (isVioid(value)) {
             delete result[key]
         }
     })
@@ -18,6 +17,7 @@ export const cleanObject = (object: object) => {
 export const useMount = (callBack: () => void) => {
     useEffect(() => {
         callBack()
+        // todo 依赖项里加上callback会造成无限循环，这个和useCallback以及useMemo有关系
     }, [])
 }
 

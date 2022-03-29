@@ -27,19 +27,18 @@ export const AuthticatedApp = () => {
                     <h3>项目</h3>
                     <h3>用户</h3>
                 </HeaderLeft>
-                {/* <HeaderRight>
+                <HeaderRight>
                     <Dropdown overlay={
                         <Menu>
                             <Menu.Item key={'logout'}>
-                                <a onClick={logout}>登出</a>
+                                <Button type="link" onClick={logout}>登出</Button>
+
                             </Menu.Item>
                         </Menu>
                     }>
-                        <a onClick={e => e.preventDefault()}>
-                            hi,{user?.name}
-                        </a>
+                        <Button type="link" onClick={logout}>  hi,{user?.name}</Button>
                     </Dropdown>
-                </HeaderRight> */}
+                </HeaderRight>
             </Header>
             <Main>
                 <ProjectListScreen />
