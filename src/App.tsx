@@ -1,4 +1,3 @@
-import React from 'react';
 import './App.css'
 import { useAuth } from 'context/auth-context';
 import { AuthticatedApp } from 'authenticated-app';

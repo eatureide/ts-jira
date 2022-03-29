@@ -1,11 +1,12 @@
 import { useState } from 'react'
 import { SearchPanal } from './search-panal'
 import { List } from './list'
-import { useDebounse } from 'utils'
+import { useDebounse, useDcoumentTitle } from 'utils'
 import styled from '@emotion/styled'
 import { Typography } from 'antd'
 import { useProjects } from './project'
 import { useUsers } from './user'
+
 
 
 // 使用js的同学，大部分的错都是在runtime时发现的
@@ -20,6 +21,8 @@ export const ProjectListScreen = () => {
     const debounceparam = useDebounse(param, 200)
     const { isLoading, error, data: list } = useProjects(debounceparam)
     const { data: users } = useUsers()
+    
+    useDcoumentTitle('项目列表', false)
 
     return (
         <Container>
