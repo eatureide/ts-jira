@@ -19,8 +19,10 @@ import { Dropdown, Menu } from 'antd'
 
 export const AuthticatedApp = () => {
     const { logout, user } = useAuth()
+    const value: any = undefined
     return (
         <Container>
+            {value.notExist}
             <Header between={true}>
                 <HeaderLeft gap={true}>
                     <SoftwareLogo height={'50px'} width={'50px'} color={'rgb(38,122,255)'} />
