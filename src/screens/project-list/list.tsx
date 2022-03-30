@@ -4,12 +4,13 @@ import dayjs from 'dayjs'
 import { Link } from 'react-router-dom'
 // react-router和react-router-dom的关系类似于react和react-dom/react-native
 import { User } from './search-panal'
+import { UserSelect } from 'components/user-select'
 
 export interface Project {
     key: string
     id: number
     name: string
-    personId: string
+    personId: number
     pin: boolean
     organization: string
     created: number

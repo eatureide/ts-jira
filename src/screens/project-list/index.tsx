@@ -7,20 +7,22 @@ import styled from '@emotion/styled'
 import { Typography } from 'antd'
 import { useProjects } from './project'
 import { useUsers } from './user'
+import { useProjectSearchParams } from './util'
 
 // 使用js的同学，大部分的错都是在runtime时发现的
 // 我们希望在静态代码中，就能找到其中的一些错误->强类型
 
-export const ProjectListScreen = () => {
 
-    // 基本类型，可以放到依赖里，组件状态可以放到以来里，非组件状态的对象，绝不可以放到依赖里
-    // codesandBox.io/s/keen-wave-tlz9s?file=/src/App.js
-    const [param, setParam] = useUrlQueryParm(['name', 'personId'])
-    const debounceparam = useDebounse(param, 200)
-    const { isLoading, error, data: list } = useProjects(debounceparam)
+// 基本类型，可以放到依赖里，组件状态可以放到以来里，非组件状态的对象，绝不可以放到依赖里
+// codesandBox.io/s/keen-wave-tlz9s?file=/src/App.js
+
+export const ProjectListScreen = () => {
+    useDcoumentTitle('项目列表', false)
+
+    const [param, setParam] = useProjectSearchParams()
+    const { isLoading, error, data: list } = useProjects(useDebounse(param, 200))
     const { data: users } = useUsers()
 
-    useDcoumentTitle('项目列表', false)
 
     return (
         <Container>
