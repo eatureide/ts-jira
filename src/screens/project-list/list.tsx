@@ -1,10 +1,12 @@
-import { Table } from 'antd'
+import { Table, Rate } from 'antd'
 import { TableProps } from 'antd/es/table'
 import dayjs from 'dayjs'
 import { Link } from 'react-router-dom'
 // react-router和react-router-dom的关系类似于react和react-dom/react-native
 import { User } from './search-panal'
 import { UserSelect } from 'components/user-select'
+import { Pin } from 'components/pin'
+import { useEditProject } from './project'
 
 export interface Project {
     key: string
@@ -17,16 +19,29 @@ export interface Project {
 }
 interface ListProps extends TableProps<Project> {
     users: User[]
+    refresh?: () => void
 }
 
 export const List = ({ users, ...props }: ListProps) => {
-
+    const { mutate } = useEditProject()
+    const pinProject = (id: number) => (pin: boolean) => mutate({ id, pin }).then(props.refresh)
     return (
         <Table
             rowKey={'id'}
             pagination={false}
             columns={
                 [
+                    {
+                        title: <Pin checked={true} disabled={true} />,
+                        render(value, project) {
+                            return (
+                                <Pin
+                                    checked={project.pin}
+                                    onCheckChange={pinProject(project.id)}
+                                />
+                            )
+                        }
+                    },
                     {
                         title: '名称',
                         sorter: (a, b) => a.name.localeCompare(b.name),

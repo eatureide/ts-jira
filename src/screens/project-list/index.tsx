@@ -4,7 +4,7 @@ import { List } from './list'
 import { useDebounse, useDcoumentTitle } from 'utils'
 import { useUrlQueryParm } from 'utils/url'
 import styled from '@emotion/styled'
-import { Typography } from 'antd'
+import { Typography, Button } from 'antd'
 import { useProjects } from './project'
 import { useUsers } from './user'
 import { useProjectSearchParams } from './util'
@@ -20,7 +20,7 @@ export const ProjectListScreen = () => {
     useDcoumentTitle('项目列表', false)
 
     const [param, setParam] = useProjectSearchParams()
-    const { isLoading, error, data: list } = useProjects(useDebounse(param, 200))
+    const { isLoading, error, data: list, retry } = useProjects(useDebounse(param, 200))
     const { data: users } = useUsers()
 
 
@@ -29,7 +29,7 @@ export const ProjectListScreen = () => {
             <h1>项目列表</h1>
             <SearchPanal users={users || []} param={param} setparam={setParam} />
             {error ? <Typography.Text type={'danger'}>{error.message}</Typography.Text> : null}
-            <List users={users || []} dataSource={list || []} loading={isLoading} />
+            <List refresh={retry} users={users || []} dataSource={list || []} loading={isLoading} />
         </Container>
     )
 }
