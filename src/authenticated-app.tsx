@@ -8,6 +8,7 @@ import { Dropdown, Menu } from 'antd'
 import { Navigate, Routes, Route } from 'react-router'
 import { BrowserRouter as Router } from 'react-router-dom'
 import { ProjectScreen } from 'screens/project'
+import { resetRoute } from 'utils'
 
 /**
  * grid和flex各自的应用场景
@@ -29,6 +30,7 @@ export const AuthticatedApp = () => {
                     <Routes>
                         <Route path={'/projects'} element={<ProjectListScreen />} />
                         <Route path={'/projects/:projectId/*'} element={<ProjectScreen />} />
+                        <Route path={'*'} element={<Navigate to={'projects'} />} />
                     </Routes>
                 </Router>
             </Main>
@@ -41,7 +43,9 @@ const PageHeader = () => {
     return (
         <Header between={true}>
             <HeaderLeft gap={true}>
-                <SoftwareLogo height={'50px'} width={'50px'} color={'rgb(38,122,255)'} />
+                <Button type={'link'} onClick={resetRoute} style={{ padding: 0 }}>
+                    <SoftwareLogo />
+                </Button>
                 <h3>项目</h3>
                 <h3>用户</h3>
             </HeaderLeft>
@@ -66,8 +70,12 @@ const HeaderItem = styled.h3`
 `
 
 const Header = styled(Row)`
-    padding:3.2rem;
     box-shadow: 0 0 5px 0 rgba(0,0,0,0.1);
+    padding:3rem;
+    svg{
+        width: auto;
+        height: 100%;
+    }
 `
 
 const HeaderLeft = styled(Row)``
