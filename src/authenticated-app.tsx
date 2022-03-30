@@ -5,6 +5,9 @@ import styled from '@emotion/styled'
 import { Row } from 'components/lib'
 import { ReactComponent as SoftwareLogo } from 'assets/logo.svg'
 import { Dropdown, Menu } from 'antd'
+import { Navigate, Routes, Route } from 'react-router'
+import { BrowserRouter as Router } from 'react-router-dom'
+import { ProjectScreen } from 'screens/project'
 
 /**
  * grid和flex各自的应用场景
@@ -18,33 +21,43 @@ import { Dropdown, Menu } from 'antd'
  */
 
 export const AuthticatedApp = () => {
-    const { logout, user } = useAuth()
-    const value: any = undefined
     return (
         <Container>
-            <Header between={true}>
-                <HeaderLeft gap={true}>
-                    <SoftwareLogo height={'50px'} width={'50px'} color={'rgb(38,122,255)'} />
-                    <h3>项目</h3>
-                    <h3>用户</h3>
-                </HeaderLeft>
-                <HeaderRight>
-                    <Dropdown overlay={
-                        <Menu>
-                            <Menu.Item key={'logout'}>
-                                <Button type="link" onClick={logout}>登出</Button>
-
-                            </Menu.Item>
-                        </Menu>
-                    }>
-                        <Button type="link" onClick={logout}>  hi,{user?.name}</Button>
-                    </Dropdown>
-                </HeaderRight>
-            </Header>
+            <PageHeader />
             <Main>
-                <ProjectListScreen />
+                <Router>
+                    <Routes>
+                        <Route path={'/projects'} element={<ProjectListScreen />} />
+                        <Route path={'/projects/:projectId/*'} element={<ProjectScreen />} />
+                    </Routes>
+                </Router>
             </Main>
         </Container>
+    )
+}
+
+const PageHeader = () => {
+    const { logout, user } = useAuth()
+    return (
+        <Header between={true}>
+            <HeaderLeft gap={true}>
+                <SoftwareLogo height={'50px'} width={'50px'} color={'rgb(38,122,255)'} />
+                <h3>项目</h3>
+                <h3>用户</h3>
+            </HeaderLeft>
+            <HeaderRight>
+                <Dropdown overlay={
+                    <Menu>
+                        <Menu.Item key={'logout'}>
+                            <Button type="link" onClick={logout}>登出</Button>
+
+                        </Menu.Item>
+                    </Menu>
+                }>
+                    <Button type="link" onClick={logout}>  hi,{user?.name}</Button>
+                </Dropdown>
+            </HeaderRight>
+        </Header>
     )
 }
 

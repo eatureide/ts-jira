@@ -1,11 +1,13 @@
 import { Table } from 'antd'
 import { TableProps } from 'antd/es/table'
 import dayjs from 'dayjs'
+import { Link } from 'react-router-dom'
+// react-router和react-router-dom的关系类似于react和react-dom/react-native
 import { User } from './search-panal'
 
 export interface Project {
     key: string
-    id: string
+    id: number
     name: string
     personId: string
     pin: boolean
@@ -26,8 +28,10 @@ export const List = ({ users, ...props }: ListProps) => {
                 [
                     {
                         title: '名称',
-                        dataIndex: 'name',
-                        sorter: (a, b) => a.name.localeCompare(b.name)
+                        sorter: (a, b) => a.name.localeCompare(b.name),
+                        render(value, project) {
+                            return <Link to={`${project.id}`}>{project.name}</Link>
+                        }
                     },
                     {
                         key: '部门',
