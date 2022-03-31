@@ -19,3 +19,6 @@ const f = () => d; const d = 1
 这时候不会报错
 const f = () => d; d(); const d = 1
 这时候就会报错了
+
+useState适合定义单个的状态
+useReducer适合定义多个互相影响的状态
