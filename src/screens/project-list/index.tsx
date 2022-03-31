@@ -17,7 +17,9 @@ import { Row } from 'components/lib'
 // 基本类型，可以放到依赖里，组件状态可以放到以来里，非组件状态的对象，绝不可以放到依赖里
 // codesandBox.io/s/keen-wave-tlz9s?file=/src/App.js
 
-export const ProjectListScreen = (props: { setProjectModalOpen: (isOpen: boolean) => void }) => {
+export const ProjectListScreen = (props: {
+    projectButton: JSX.Element
+}) => {
     useDcoumentTitle('项目列表', false)
 
     const [param, setParam] = useProjectSearchParams()
@@ -29,7 +31,7 @@ export const ProjectListScreen = (props: { setProjectModalOpen: (isOpen: boolean
         <Container>
             <Row between={true}>
                 <h1>项目列表</h1>
-                <Button onClick={() => props.setProjectModalOpen(true)}>创建项目</Button>
+                {props.projectButton}
             </Row>
 
             <SearchPanal users={users || []} param={param} setparam={setParam} />
@@ -39,7 +41,7 @@ export const ProjectListScreen = (props: { setProjectModalOpen: (isOpen: boolean
                     null
             }
             <List
-                setProjectModalOpen={props.setProjectModalOpen}
+                projectButton={props.projectButton}
                 refresh={retry}
                 users={users || []}
                 dataSource={list || []}
