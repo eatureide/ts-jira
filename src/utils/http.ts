@@ -1,6 +1,7 @@
 import qs from 'qs'
 import * as auth from 'auth-provider'
 import { useAuth } from 'context/auth-context'
+import { useCallback } from 'react'
 const apiUrl = process.env.REACT_APP_API_URL
 
 
@@ -43,7 +44,7 @@ export const useHttp = () => {
     const { user } = useAuth()
     // 讲解 Parameters操作符
     // utily type的用法，用泛型传入一个其他类型，然后utily type对这个类型进行某种操作
-    return (...[endpoint, config]: Parameters<typeof http>) => http(endpoint, { ...config, token: user?.token })
+    return useCallback((...[endpoint, config]: Parameters<typeof http>) => http(endpoint, { ...config, token: user?.token }), [user?.token])
 }
 
 type a = string | number
@@ -62,7 +63,7 @@ const shenmi: Omit<person, 'name' | 'age'> = { age: 8 }
 type persononlyname = Pick<person, 'name'>
 
 // 去掉该类型的键值
-type age = Exclude<person,'name'>
+type age = Exclude<person, 'name'>
 type Partial<T> = {
     // 键p遍历泛型t，让t所有的键值改为可选
     [P in keyof T]?: T[P];

@@ -8,6 +8,7 @@ import { Typography, Button } from 'antd'
 import { useProjects } from './project'
 import { useUsers } from './user'
 import { useProjectSearchParams } from './util'
+import { Row } from 'components/lib'
 
 // 使用js的同学，大部分的错都是在runtime时发现的
 // 我们希望在静态代码中，就能找到其中的一些错误->强类型
@@ -16,7 +17,7 @@ import { useProjectSearchParams } from './util'
 // 基本类型，可以放到依赖里，组件状态可以放到以来里，非组件状态的对象，绝不可以放到依赖里
 // codesandBox.io/s/keen-wave-tlz9s?file=/src/App.js
 
-export const ProjectListScreen = () => {
+export const ProjectListScreen = (props: { setProjectModalOpen: (isOpen: boolean) => void }) => {
     useDcoumentTitle('项目列表', false)
 
     const [param, setParam] = useProjectSearchParams()
@@ -26,10 +27,24 @@ export const ProjectListScreen = () => {
 
     return (
         <Container>
-            <h1>项目列表</h1>
+            <Row between={true}>
+                <h1>项目列表</h1>
+                <Button onClick={() => props.setProjectModalOpen(true)}>创建项目</Button>
+            </Row>
+
             <SearchPanal users={users || []} param={param} setparam={setParam} />
-            {error ? <Typography.Text type={'danger'}>{error.message}</Typography.Text> : null}
-            <List refresh={retry} users={users || []} dataSource={list || []} loading={isLoading} />
+            {
+                error ?
+                    <Typography.Text type={'danger'}>{error.message}</Typography.Text> :
+                    null
+            }
+            <List
+                setProjectModalOpen={props.setProjectModalOpen}
+                refresh={retry}
+                users={users || []}
+                dataSource={list || []}
+                loading={isLoading}
+            />
         </Container>
     )
 }

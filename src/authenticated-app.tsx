@@ -2,13 +2,16 @@ import { Button } from 'antd'
 import { ProjectListScreen } from 'screens/project-list'
 import { useAuth } from 'context/auth-context'
 import styled from '@emotion/styled'
-import { Row } from 'components/lib'
+import { Row, ButtonNoPadding } from 'components/lib'
 import { ReactComponent as SoftwareLogo } from 'assets/logo.svg'
 import { Dropdown, Menu } from 'antd'
 import { Navigate, Routes, Route } from 'react-router'
 import { BrowserRouter as Router } from 'react-router-dom'
 import { ProjectScreen } from 'screens/project'
 import { resetRoute } from 'utils'
+import { useState } from 'react'
+import { ProjectModal } from 'screens/project-list/project-modal'
+import { ProjectPopover } from 'components/project-popover'
 
 /**
  * grid和flex各自的应用场景
@@ -22,49 +25,62 @@ import { resetRoute } from 'utils'
  */
 
 export const AuthticatedApp = () => {
+    const [projectModalOpen, setProjectModalOpen] = useState(false)
     return (
         <Container>
-            <PageHeader />
+            <PageHeader setProjectModalOpen={setProjectModalOpen} />
             <Main>
                 <Router>
                     <Routes>
-                        <Route path={'/projects'} element={<ProjectListScreen />} />
+                        <Route path={'/projects'} element={<ProjectListScreen setProjectModalOpen={setProjectModalOpen} />} />
                         <Route path={'/projects/:projectId/*'} element={<ProjectScreen />} />
                         <Route path={'*'} element={<Navigate to={'projects'} />} />
                     </Routes>
                 </Router>
             </Main>
+            <ProjectModal
+                projectModalOpen={projectModalOpen}
+                onClouse={() => setProjectModalOpen(false)}
+            />
         </Container>
     )
 }
 
-const PageHeader = () => {
+const PageHeader = (props: { setProjectModalOpen: (isOpen: boolean) => void }) => {
     const { logout, user } = useAuth()
     return (
         <Header between={true}>
             <HeaderLeft gap={true}>
-                <Button type={'link'} onClick={resetRoute} style={{ padding: 0 }}>
+                <ButtonNoPadding type={'link'} onClick={resetRoute}>
                     <SoftwareLogo />
-                </Button>
-                <h3>项目</h3>
-                <h3>用户</h3>
+                </ButtonNoPadding>
+                <ProjectPopover setProjectModalOpen={props.setProjectModalOpen} />
+                <span>用户</span>
             </HeaderLeft>
             <HeaderRight>
-                <Dropdown overlay={
-                    <Menu>
-                        <Menu.Item key={'logout'}>
-                            <Button type="link" onClick={logout}>登出</Button>
-
-                        </Menu.Item>
-                    </Menu>
-                }>
-                    <Button type="link" onClick={logout}>  hi,{user?.name}</Button>
-                </Dropdown>
+                <User />
             </HeaderRight>
         </Header>
     )
 }
 
+const User = () => {
+    const { logout, user } = useAuth()
+    return (
+        <Dropdown overlay={
+            <Menu>
+                <Menu.Item key={'logout'}>
+                    <Button type="link" onClick={logout}>登出</Button>
+
+                </Menu.Item>
+            </Menu>
+        }>
+            <Button type="link" onClick={logout}>  hi,{user?.name}</Button>
+        </Dropdown>
+    )
+}
+
+// template dead zone (暂时性死区)
 const HeaderItem = styled.h3`
     margin-right: 3rem;
 `

@@ -73,3 +73,17 @@ export const useDcoumentTitle = (title: string, keepOnUnmount: boolean = true) =
 export const resetRoute = () => {
     window.location.href = window.location.origin
 }
+
+// 用来返回组件的挂在状态，如果还没挂在或者已写在，返回false反之返回true
+export const useMountedRef = () => {
+    const mountedRef = useRef(false)
+
+    useEffect(() => {
+        mountedRef.current = true
+        return () => {
+            mountedRef.current = false
+        }
+    })
+
+    return mountedRef
+}
