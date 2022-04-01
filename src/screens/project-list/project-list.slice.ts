@@ -23,5 +23,4 @@ export const projectListSlice = createSlice({
 })
 
 export const projectListActions = projectListSlice.actions
-
 export const selectProjectModalOpen = (state: RootState) => state.projectList.projectModalOpen

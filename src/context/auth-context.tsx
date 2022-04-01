@@ -1,17 +1,19 @@
-import React, { useState, ReactNode } from 'react'
+import React, { useState, ReactNode, useCallback } from 'react'
 import * as auth from 'auth-provider'
 import { User } from 'screens/project-list/search-panal'
 import { http } from 'utils/http'
 import { useMount } from 'utils'
 import { useAsync } from 'utils/use-async'
 import { FullPageLoading, FullPageErrorFallBack } from 'components/lib'
+import { useDispatch, useSelector } from 'react-redux'
+import * as authStore from 'store/auth.slice'
 
-interface AuthForm {
+export interface AuthForm {
     username: string
     password: string
 }
 
-const boostrapUser = async () => {
+export const boostrapUser = async () => {
     let user = null
     const token = auth.getToken()
     if (token) {
@@ -21,23 +23,19 @@ const boostrapUser = async () => {
     }
 }
 
-const AuthContext = React.createContext<{
-    user: User | null
-    register: (form: AuthForm) => Promise<void>
-    login: (form: AuthForm) => Promise<void>
-    logout: () => Promise<void>
-} | undefined>(undefined)
-
-AuthContext.displayName = 'AuthContext'
-
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
-    const { data: user, error, isLoading, isIdle, isError, run, setData: setUser } = useAsync<User | null>()
-    const login = (form: AuthForm) => auth.login(form).then(setUser)
-    const register = (form: AuthForm) => auth.register(form).then(setUser)
-    const logout = () => auth.logout().then(() => setUser(null))
+    const {
+        error,
+        isLoading,
+        isIdle,
+        isError,
+        run
+    } = useAsync<User | null>()
+
+    const dispatch: (...args: unknown[]) => Promise<User> = useDispatch()
 
     useMount(() => {
-        run(boostrapUser())
+        run(dispatch(authStore.bootStrap()))
     })
 
     if (isIdle || isLoading) {
@@ -49,14 +47,24 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     }
 
     return (
-        <AuthContext.Provider children={children} value={{ user, login, register, logout }} />
+        <div>
+            {children}
+        </div>
     )
 }
 
 export const useAuth = () => {
-    const context = React.useContext(AuthContext)
-    if (!context) {
-        throw new Error('useAuth必须在AuthProvider使用')
+    const dispatch: (...args: unknown[]) => Promise<User> = useDispatch()
+    const user = useSelector(authStore.selectUser)
+
+    const login = useCallback((form: AuthForm) => dispatch(authStore.login(form)), [dispatch])
+    const register = useCallback((form: AuthForm) => dispatch(authStore.register(form)), [dispatch])
+    const logout = useCallback(() => dispatch(authStore.logout()), [dispatch])
+
+    return {
+        user,
+        login,
+        register,
+        logout
     }
-    return context
 }

@@ -2,11 +2,16 @@ import { useAuth } from 'context/auth-context'
 import { Form, Input, Button } from 'antd'
 import { LongButton } from './index'
 import { useAsync } from 'utils/use-async'
+import { useDispatch } from 'react-redux'
+import { login as loginThunk } from 'store/auth.slice'
 
 export const LoginScreen = ({ onError }: { onError: (error: Error) => void }) => {
     const { login, user } = useAuth()
     const { run, isLoading } = useAsync(undefined, { throwOnError: true })
+    const dispatch = useDispatch()
+
     const handleSubmit = async (values: { username: string, password: string }) => {
+
         try {
             await run(login(values))
         } catch (e: any) {

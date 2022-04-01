@@ -7,7 +7,7 @@ export const ProjectModal = () => {
     const dispatch = useDispatch()
     const projectModalOpen = useSelector(selectProjectModalOpen)
     return (
-        <Drawer visible={projectModalOpen} onClose={() => dispatch(projectListActions.clouseProjectModal())}>
+        <Drawer width={'100%'} visible={projectModalOpen} onClose={() => dispatch(projectListActions.clouseProjectModal())}>
             <h1>project modal</h1>
             <Button onClick={() => dispatch(projectListActions.clouseProjectModal())}>关闭</Button>
         </Drawer>
