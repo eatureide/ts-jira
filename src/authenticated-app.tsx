@@ -12,6 +12,7 @@ import { resetRoute } from 'utils'
 import { useState } from 'react'
 import { ProjectModal } from 'screens/project-list/project-modal'
 import { ProjectPopover } from 'components/project-popover'
+// import 
 
 /**
  * grid和flex各自的应用场景
@@ -25,47 +26,27 @@ import { ProjectPopover } from 'components/project-popover'
  */
 
 export const AuthticatedApp = () => {
-    const [projectModalOpen, setProjectModalOpen] = useState(false)
+
     return (
         <Container>
-            <PageHeader
-                projectButton={
-                    <ButtonNoPadding
-                        type={'link'}
-                        onClick={() => setProjectModalOpen(true)}>
-                        创建项目
-                    </ButtonNoPadding>
-                }
-            />
+            <PageHeader />
             <Main>
                 <Router>
                     <Routes>
                         <Route path={'/projects'} element={
-                            <ProjectListScreen
-                                projectButton={
-                                    <ButtonNoPadding
-                                        type={'link'}
-                                        onClick={() => setProjectModalOpen(true)}>
-                                        创建项目
-                                    </ButtonNoPadding>
-                                } />
+                            <ProjectListScreen />
                         } />
                         <Route path={'/projects/:projectId/*'} element={<ProjectScreen />} />
                         <Route path={'*'} element={<Navigate to={'projects'} />} />
                     </Routes>
                 </Router>
             </Main>
-            <ProjectModal
-                projectModalOpen={projectModalOpen}
-                onClouse={() => setProjectModalOpen(false)}
-            />
+            <ProjectModal/>
         </Container>
     )
 }
 
-const PageHeader = (props: {
-    projectButton: JSX.Element
-}) => {
+const PageHeader = () => {
     const { logout, user } = useAuth()
     return (
         <Header between={true}>
@@ -73,7 +54,7 @@ const PageHeader = (props: {
                 <ButtonNoPadding type={'link'} onClick={resetRoute}>
                     <SoftwareLogo />
                 </ButtonNoPadding>
-                <ProjectPopover {...props} />
+                <ProjectPopover />
                 <span>用户</span>
             </HeaderLeft>
             <HeaderRight>
