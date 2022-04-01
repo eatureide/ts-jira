@@ -4,6 +4,7 @@ import { cleanObject } from 'utils'
 
 export const useUrlQueryParm = <K extends string>(keys: K[]) => {
     const [searchParams, setSearchParm] = useSearchParams()
+
     return [
         useMemo(
             () => (
@@ -22,4 +23,19 @@ export const useUrlQueryParm = <K extends string>(keys: K[]) => {
             return setSearchParm(o)
         }
     ] as const
+}
+
+export const useProjectModal = () => {
+    const [{ projectCreate }, setProjectModalOpen] = useUrlQueryParm([
+        'projectCreate'
+    ])
+
+    const open = () => setProjectModalOpen({ projectCreate: true })
+    const clouse = () => setProjectModalOpen({ projectCreate: undefined })
+
+    return {
+        projectModalOpen: projectCreate === 'true',
+        open,
+        clouse
+    }
 }
