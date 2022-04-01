@@ -7,7 +7,7 @@ import { useProjectModal } from 'utils/url'
 export const ProjectPopover = () => {
     const { data: projectes, isLoading } = useProjects()
     const pinnedProjects = projectes?.filter((project) => project.pin)
-    const { open } = useProjectModal()
+    const { open } = useProjectModal() 
     const content = (
         <ContenetContainer>
             <Typography.Text type={'secondary'}>收藏项目</Typography.Text>

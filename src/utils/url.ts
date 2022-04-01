@@ -1,5 +1,6 @@
 import { useMemo } from 'react'
 import { useSearchParams, URLSearchParamsInit } from 'react-router-dom'
+import { useProject } from 'screens/project-list/project'
 import { cleanObject } from 'utils'
 
 export const useUrlQueryParm = <K extends string>(keys: K[]) => {
@@ -26,16 +27,31 @@ export const useUrlQueryParm = <K extends string>(keys: K[]) => {
 }
 
 export const useProjectModal = () => {
-    const [{ projectCreate }, setProjectModalOpen] = useUrlQueryParm([
+    const [{ projectCreate }, setProjectCreate] = useUrlQueryParm([
         'projectCreate'
     ])
 
-    const open = () => setProjectModalOpen({ projectCreate: true })
-    const clouse = () => setProjectModalOpen({ projectCreate: undefined })
+    const [{ editingProjectId }, setEditingProjectId] = useUrlQueryParm([
+        'editingProjectId'
+    ])
+
+    const { data: editingProject, isLoading } = useProject(Number(editingProjectId))
+
+    const open = () => setProjectCreate({ projectCreate: true })
+    const close = () => {
+        projectCreate && setProjectCreate({ projectCreate: undefined })
+        editingProjectId && setEditingProjectId({ editingProjectId: undefined })
+    }
+    const startEdit = (id: number) => {
+        setEditingProjectId({ editingProjectId: id })
+    }
 
     return {
-        projectModalOpen: projectCreate === 'true',
+        projectModalOpen: projectCreate === 'true' || Boolean(editingProject),
         open,
-        clouse
+        close,
+        startEdit,
+        editingProject,
+        isLoading
     }
 }

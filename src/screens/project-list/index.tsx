@@ -8,7 +8,7 @@ import { Typography, Button } from 'antd'
 import { useProjects } from './project'
 import { useUsers } from './user'
 import { useProjectSearchParams } from './util'
-import { Row, ButtonNoPadding } from 'components/lib'
+import { Row, ButtonNoPadding, ErrorBox } from 'components/lib'
 import { useProjectModal } from 'utils/url'
 
 // 使用js的同学，大部分的错都是在runtime时发现的
@@ -22,7 +22,7 @@ export const ProjectListScreen = () => {
     useDcoumentTitle('项目列表', false)
 
     const [param, setParam] = useProjectSearchParams()
-    const { isLoading, error, data: list, retry } = useProjects(useDebounse(param, 200))
+    const { isLoading, error, data: list } = useProjects(useDebounse(param, 200))
     const { data: users } = useUsers()
     const { open } = useProjectModal()
 
@@ -39,13 +39,8 @@ export const ProjectListScreen = () => {
             </Row>
 
             <SearchPanal users={users || []} param={param} setparam={setParam} />
-            {
-                error ?
-                    <Typography.Text type={'danger'}>{error.message}</Typography.Text> :
-                    null
-            }
+            <ErrorBox error={error} />
             <List
-                refresh={retry}
                 users={users || []}
                 dataSource={list || []}
                 loading={isLoading}
