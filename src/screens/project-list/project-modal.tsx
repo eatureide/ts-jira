@@ -25,10 +25,15 @@ export const ProjectModal = () => {
         form.setFieldsValue(editingProject)
     }, [editingProject, form])
 
+    const clouseModal = () => {
+        form.resetFields()
+        close()
+    }
+
     const title = editingProject ? '编辑项目' : '创建项目'
 
     return (
-        <Drawer forceRender visible={projectModalOpen} onClose={close} width={'100%'}>
+        <Drawer forceRender visible={projectModalOpen} onClose={clouseModal} width={'100%'}>
             <Container>
                 <h1>{title}</h1>
                 {isLoading && <Spin size={'large'} />}
