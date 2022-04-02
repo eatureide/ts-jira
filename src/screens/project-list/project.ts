@@ -1,5 +1,5 @@
 import { useAsync } from 'utils/use-async'
-import { Project } from './list'
+import { Project } from 'types/project'
 import { useCallback, useEffect } from 'react'
 import { cleanObject } from 'utils'
 import { useHttp } from 'utils/http'

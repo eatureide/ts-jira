@@ -3,22 +3,15 @@ import { TableProps } from 'antd/es/table'
 import dayjs from 'dayjs'
 import { Link } from 'react-router-dom'
 // react-router和react-router-dom的关系类似于react和react-dom/react-native
-import { User } from './search-panal'
+import { User } from 'types/user'
 import { UserSelect } from 'components/user-select'
 import { Pin } from 'components/pin'
 import { useDeleteProject, useEditProject, useProjectsQueryKey } from './project'
 import { ButtonNoPadding } from 'components/lib'
 import { useProjectModal } from 'utils/url'
+import { Project } from 'types/project'
 
-export interface Project {
-    key: string
-    id: number
-    name: string
-    personId: number
-    pin: boolean
-    organization: string
-    created: number
-}
+
 interface ListProps extends TableProps<Project> {
     users: User[]
 }

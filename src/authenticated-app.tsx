@@ -3,7 +3,7 @@ import { ProjectListScreen } from 'screens/project-list'
 import { useAuth } from 'context/auth-context'
 import styled from '@emotion/styled'
 import { Row, ButtonNoPadding } from 'components/lib'
-import { ReactComponent as SoftwareLogo } from 'assets/logo.svg'
+import { ReactComponent as SoftwareLogo } from 'assets/software-logo.svg'
 import { Dropdown, Menu } from 'antd'
 import { Navigate, Routes, Route } from 'react-router'
 import { BrowserRouter as Router } from 'react-router-dom'
@@ -51,7 +51,7 @@ const PageHeader = () => {
         <Header between={true}>
             <HeaderLeft gap={true}>
                 <ButtonNoPadding type={'link'} onClick={resetRoute}>
-                    <SoftwareLogo />
+                    <SoftwareLogo color="rgb(38, 132, 255)" />
                 </ButtonNoPadding>
                 <ProjectPopover />
                 <span>用户</span>

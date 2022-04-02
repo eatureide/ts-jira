@@ -1,4 +1,4 @@
-import { User } from 'screens/project-list/search-panal'
+import { User } from 'types/user'
 // 在真实环境中，如果使用direbase这种第三方auth服务的话，本文将不需要开发
 
 const localStorageKey = '__auth_provider_token__'
