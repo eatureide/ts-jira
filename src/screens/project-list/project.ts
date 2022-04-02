@@ -5,7 +5,7 @@ import { cleanObject } from 'utils'
 import { useHttp } from 'utils/http'
 import { QueryKey, useMutation, useQuery, useQueryClient } from 'react-query'
 import { useProjectSearchParams } from './util'
-import { useAddConfig, useEditConfig } from 'utils/use-optimistic-options'
+import { useAddConfig, useDeleteConfig, useEditConfig } from 'utils/use-optimistic-options'
 
 export const useProjects = (param?: Partial<Project>) => {
     const client = useHttp()
@@ -14,7 +14,7 @@ export const useProjects = (param?: Partial<Project>) => {
 
 export const useProjectsQueryKey = () => {
     const [params] = useProjectSearchParams()
-    return ['projectes', params]
+    return ['projects', params]
 }
 
 export const useEditProject = (queryKey: QueryKey) => {
@@ -31,7 +31,6 @@ export const useEditProject = (queryKey: QueryKey) => {
 
 export const useAddProject = (queryKey: QueryKey) => {
     const client = useHttp()
-    const queryClient = useQueryClient()
     return useMutation(
         (params: Partial<Project>) =>
             client(`projects`, {
@@ -41,6 +40,18 @@ export const useAddProject = (queryKey: QueryKey) => {
         useAddConfig(queryKey)
     )
 }
+
+export const useDeleteProject = (queryKey: QueryKey) => {
+    const client = useHttp()
+    return useMutation(
+        ({ id }: { id: number }) =>
+            client(`projects/${id}`, {
+                method: 'DELETE'
+            }),
+        useDeleteConfig(queryKey)
+    )
+}
+
 
 export const useProject = (id?: number) => {
     const client = useHttp()
