@@ -6,7 +6,7 @@ import { Link } from 'react-router-dom'
 import { User } from './search-panal'
 import { UserSelect } from 'components/user-select'
 import { Pin } from 'components/pin'
-import { useEditProject } from './project'
+import { useEditProject, useProjectsQueryKey } from './project'
 import { ButtonNoPadding } from 'components/lib'
 import { useProjectModal } from 'utils/url'
 
@@ -24,7 +24,7 @@ interface ListProps extends TableProps<Project> {
 }
 
 export const List = ({ users, ...props }: ListProps) => {
-    const { mutate } = useEditProject()
+    const { mutate } = useEditProject(useProjectsQueryKey())
     const { startEdit } = useProjectModal()
     const pinProject = (id: number) => (pin: boolean) => mutate({ id, pin })
     const editProject = (id: number) => () => startEdit(id)

@@ -3,35 +3,42 @@ import { Project } from './list'
 import { useCallback, useEffect } from 'react'
 import { cleanObject } from 'utils'
 import { useHttp } from 'utils/http'
-import { useMutation, useQuery, useQueryClient } from 'react-query'
+import { QueryKey, useMutation, useQuery, useQueryClient } from 'react-query'
+import { useProjectSearchParams } from './util'
+import { useAddConfig, useEditConfig } from 'utils/use-optimistic-options'
 
 export const useProjects = (param?: Partial<Project>) => {
     const client = useHttp()
     return useQuery<Project[]>(['projects', param], () => client('projects', { data: param }))
 }
 
-export const useEditProject = () => {
+export const useProjectsQueryKey = () => {
+    const [params] = useProjectSearchParams()
+    return ['projectes', params]
+}
+
+export const useEditProject = (queryKey: QueryKey) => {
     const client = useHttp()
-    const queryClient = useQueryClient()
     return useMutation(
-        (params: Partial<Project>) => client(`projects/${params.id}`, { method: 'PATCH', data: params }),
-        {
-            onSuccess: () => queryClient.invalidateQueries('projects')
-        }
+        (params: Partial<Project>) =>
+            client(`projects/${params.id}`, {
+                method: 'PATCH',
+                data: params
+            }),
+        useEditConfig(queryKey)
     )
 }
 
-export const useAddProject = () => {
+export const useAddProject = (queryKey: QueryKey) => {
     const client = useHttp()
     const queryClient = useQueryClient()
     return useMutation(
-        (params: Partial<Project>) => client(`projects`, {
-            data: params,
-            method: 'POST'
-        }),
-        {
-            onSuccess: () => queryClient.invalidateQueries('projects')
-        }
+        (params: Partial<Project>) =>
+            client(`projects`, {
+                data: params,
+                method: 'POST'
+            }),
+        useAddConfig(queryKey)
     )
 }
 
