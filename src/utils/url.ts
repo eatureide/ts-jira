@@ -1,11 +1,13 @@
-import { useMemo } from 'react'
+import { useMemo, useState } from 'react'
 import { useSearchParams, URLSearchParamsInit } from 'react-router-dom'
 import { useProject } from 'screens/project-list/project'
 import { cleanObject } from 'utils'
 
-export const useUrlQueryParm = <K extends string>(keys: K[]) => {
-    const [searchParams, setSearchParm] = useSearchParams()
 
+export const useUrlQueryParm = <K extends string>(keys: K[]) => {
+    const [searchParams] = useSearchParams()
+    const setSearchParms = useSetUrlSearchParam()
+    const [setKeys] = useState(keys)
     return [
         useMemo(
             () => (
@@ -20,10 +22,21 @@ export const useUrlQueryParm = <K extends string>(keys: K[]) => {
         ),
         (params: Partial<{ [key in K]: unknown }>) => {
             // iterator
-            const o = cleanObject({ ...Object.fromEntries(searchParams), ...params }) as URLSearchParamsInit
-            return setSearchParm(o)
+            return setSearchParms(params)
         }
     ] as const
+}
+
+export const useSetUrlSearchParam = () => {
+    const [searchParams, setSearchParm] = useSearchParams()
+
+    return (params: { [key in string]: unknown }) => {
+        const o = cleanObject({
+            ...Object.fromEntries(searchParams),
+            ...params
+        }) as URLSearchParamsInit
+        return setSearchParm(o)
+    }
 }
 
 export const useProjectModal = () => {
@@ -35,12 +48,17 @@ export const useProjectModal = () => {
         'editingProjectId'
     ])
 
-    const { data: editingProject, isLoading } = useProject(Number(editingProjectId))
+    const setUrlParams = useSetUrlSearchParam()
+    const { data: editingProject, isLoading } = useProject(
+        Number(editingProjectId)
+    )
 
     const open = () => setProjectCreate({ projectCreate: true })
     const close = () => {
-        projectCreate && setProjectCreate({ projectCreate: undefined })
-        editingProjectId && setEditingProjectId({ editingProjectId: undefined })
+        setUrlParams({
+            projectCreate: undefined,
+            editingProjectId: undefined
+        })
     }
     const startEdit = (id: number) => {
         setEditingProjectId({ editingProjectId: id })
