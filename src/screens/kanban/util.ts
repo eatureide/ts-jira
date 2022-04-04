@@ -29,13 +29,13 @@ export const useTaskSearchParams = () => {
         'tagId'
     ])
     const projectId = useProjectIdInUrl()
-    const debounceName = useDebounse(parm.name, 200)
+
     return useMemo(() => ({
         projectId,
         typeId: Number(parm.typeId) || undefined,
         processId: Number(parm.processId) || undefined,
         tagId: Number(parm.tagId) || undefined,
-        name: debounceName
+        name: parm.name
     }), [projectId, parm])
 }
 
