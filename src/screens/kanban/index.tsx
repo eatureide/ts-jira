@@ -7,6 +7,7 @@ import { SearchPannel } from 'screens/kanban/search-pannel'
 import { useTasks } from 'utils/task'
 import { Spin } from 'antd'
 import { CreateKanban } from './create-kanban'
+import { TaskModal } from './task-modal'
 
 
 export const KanbanScreen = () => {
@@ -32,6 +33,7 @@ export const KanbanScreen = () => {
                         </>
                     )
                 }
+                <TaskModal />
             </ColumnsContainer>
         </>
     )
