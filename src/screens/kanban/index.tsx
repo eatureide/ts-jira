@@ -53,7 +53,7 @@ export const useDragEnd = () => {
     const { mutate: reorderTasks } = useReorderTask(useTasksQueryKey())
     const { data: allTasks = [] } = useTasks(useTaskSearchParams())
     return useCallback(({ source, destination, type }: DropResult) => {
-    
+        console.log(type)
         if (!destination) return
         // 看板排序
         if (type === 'COLUMN') {
@@ -64,19 +64,27 @@ export const useDragEnd = () => {
             reorderKanban({ fromId, referenceId: toId, type })
         }
         if (type === 'ROW') {
-            const fromKanbanId = +source.droppableId
-            const toKanbanId = +destination.droppableId
-            if (fromKanbanId === toKanbanId) return
-            const formTask = allTasks?.filter((task) => task.kanbanId === fromKanbanId)[source.index]
-            const toTask = allTasks?.filter((task) => task.kanbanId === toKanbanId)[destination.index]
-            if (formTask?.id === toTask?.id) return
+            const fromKanbanId = +source.droppableId;
+            const toKanbanId = +destination.droppableId;
+            const fromTask = allTasks.filter(
+                (task) => task.kanbanId === fromKanbanId
+            )[source.index];
+            const toTask = allTasks.filter((task) => task.kanbanId === toKanbanId)[
+                destination.index
+            ];
+            if (fromTask?.id === toTask?.id) {
+                return;
+            }
             reorderTasks({
-                fromId: formTask?.id,
+                fromId: fromTask?.id,
                 referenceId: toTask?.id,
                 fromKanbanId,
                 toKanbanId,
-                type: fromKanbanId === toKanbanId && destination.index > source.index ? 'after' : 'before'
-            })
+                type:
+                    fromKanbanId === toKanbanId && destination.index > source.index
+                        ? "after"
+                        : "before",
+            });
         }
     }, [kanbans, reorderKanban, allTasks, reorderTasks])
 }
