@@ -1,13 +1,16 @@
 import { useDcoumentTitle } from 'utils'
-import { useKanbans } from 'utils/kanban'
+import { useKanbans, useReorderKanban } from 'utils/kanban'
 import { KanbanColumn } from './kanban-colum'
-import { useProjectInInUrl, useKanbanSearchParams, useTaskSearchParams } from './util'
+import { useProjectInInUrl, useKanbanSearchParams, useTaskSearchParams, useTasksQueryKey, useKanbanQueryKey } from './util'
 import styled from '@emotion/styled'
 import { SearchPannel } from 'screens/kanban/search-pannel'
-import { useTasks } from 'utils/task'
+import { useReorderTask, useTasks } from 'utils/task'
 import { Spin } from 'antd'
 import { CreateKanban } from './create-kanban'
 import { TaskModal } from './task-modal'
+import { DragDropContext, DropResult } from 'react-beautiful-dnd'
+import { Drag, Drop, DropChild } from 'components/drag-and-drop'
+import { useCallback } from 'react'
 
 
 export const KanbanScreen = () => {
@@ -16,30 +19,69 @@ export const KanbanScreen = () => {
     const { data: kanbans, isLoading: kanbanIsLoading } = useKanbans(useKanbanSearchParams())
     const { isLoading: taskIsLoading } = useTasks(useTaskSearchParams())
     const isLoading = taskIsLoading || kanbanIsLoading
+    const onDragEnd = useDragEnd()
     return (
-        <>
+        <DragDropContext onDragEnd={onDragEnd}>
             <h1>{currentProject?.name}看板</h1>
             <SearchPannel />
+            {isLoading && <Spin size={'large'} />}
             <ColumnsContainer>
-                {
-                    isLoading ? <Spin size={'large'} /> : (
-                        <>
-                            {
-                                kanbans?.map((kanban) => (
-                                    <KanbanColumn key={kanban.id} kanban={kanban} />
-                                ))
-                            }
-                            <CreateKanban />
-                        </>
-                    )
-                }
-                <TaskModal />
+                <Drop type={'COLUMN'} direction={'horizontal'} droppableId={'kanban'}>
+                    <DropChild style={{ display: 'flex' }}>
+                        {kanbans?.map((kanban, index) => (
+                            <Drag
+                                key={kanban.id}
+                                draggableId={"kanban" + kanban.id}
+                                index={index}
+                            >
+                                <KanbanColumn kanban={kanban} key={kanban.id} />
+                            </Drag>
+                        ))}
+
+                    </DropChild>
+                </Drop>
+                <CreateKanban />
             </ColumnsContainer>
-        </>
+            <TaskModal />
+        </DragDropContext>
     )
 }
 
-export const ColumnsContainer = styled.div`
+export const useDragEnd = () => {
+    const { data: kanbans } = useKanbans(useKanbanSearchParams())
+    const { mutate: reorderKanban } = useReorderKanban(useKanbanQueryKey())
+    const { mutate: reorderTasks } = useReorderTask(useTasksQueryKey())
+    const { data: allTasks = [] } = useTasks(useTaskSearchParams())
+    return useCallback(({ source, destination, type }: DropResult) => {
+    
+        if (!destination) return
+        // 看板排序
+        if (type === 'COLUMN') {
+            const fromId = kanbans?.[source.index].id
+            const toId = kanbans?.[destination.index].id
+            if (!fromId || !toId || fromId === toId) return
+            const type = destination.index > source.index ? 'after' : 'before'
+            reorderKanban({ fromId, referenceId: toId, type })
+        }
+        if (type === 'ROW') {
+            const fromKanbanId = +source.droppableId
+            const toKanbanId = +destination.droppableId
+            if (fromKanbanId === toKanbanId) return
+            const formTask = allTasks?.filter((task) => task.kanbanId === fromKanbanId)[source.index]
+            const toTask = allTasks?.filter((task) => task.kanbanId === toKanbanId)[destination.index]
+            if (formTask?.id === toTask?.id) return
+            reorderTasks({
+                fromId: formTask?.id,
+                referenceId: toTask?.id,
+                fromKanbanId,
+                toKanbanId,
+                type: fromKanbanId === toKanbanId && destination.index > source.index ? 'after' : 'before'
+            })
+        }
+    }, [kanbans, reorderKanban, allTasks, reorderTasks])
+}
+
+export const ColumnsContainer = styled('div')`
   display: flex;
   overflow-x: scroll;
   flex: 1;
