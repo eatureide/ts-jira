@@ -12,6 +12,7 @@ import { resetRoute } from 'utils'
 import { useState } from 'react'
 import { ProjectModal } from 'screens/project-list/project-modal'
 import { ProjectPopover } from 'components/project-popover'
+import { UserPopover } from 'components/user-popover'
 
 /**
  * grid和flex各自的应用场景
@@ -54,7 +55,7 @@ const PageHeader = () => {
                     <SoftwareLogo color="rgb(38, 132, 255)" />
                 </ButtonNoPadding>
                 <ProjectPopover />
-                <span>用户</span>
+                <UserPopover />
             </HeaderLeft>
             <HeaderRight>
                 <User />

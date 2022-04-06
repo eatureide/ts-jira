@@ -25,6 +25,15 @@ const FullPage = styled.div`
     align-items: center;
     justify-content: center;
 `
+
+export const ScreenContainer = styled.div`
+  padding: 3.2rem;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+`;
+
+
 export const FullPageLoading = () => (
     <FullPage>
         <Spin size={'large'} />

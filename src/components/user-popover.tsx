@@ -3,36 +3,30 @@ import { Popover, Typography, List, Divider, Button } from 'antd'
 import { useProjects } from 'screens/project-list/project'
 import { ButtonNoPadding } from 'components/lib'
 import { useProjectModal } from 'utils/url'
+import { useUsers } from 'screens/project-list/user'
 
-export const ProjectPopover = () => {
-    const { data: projectes, isLoading, refetch } = useProjects()
-    const pinnedProjects = projectes?.filter((project) => project.pin)
-    const { open } = useProjectModal()
+export const UserPopover = () => {
+    const { data: users, refetch } = useUsers()
+
     const content = (
         <ContenetContainer>
-            <Typography.Text type={'secondary'}>收藏项目</Typography.Text>
+            <Typography.Text type={'secondary'}>组员列表</Typography.Text>
             <List>
                 {
-                    pinnedProjects?.map((project) => (
-                        <List.Item key={project.id}>
-                            <List.Item.Meta title={project.name} />
+                    users?.map((user) => (
+                        <List.Item key={user.id}>
+                            <List.Item.Meta title={user.name} />
                         </List.Item>
                     ))
                 }
             </List>
             <Divider />
-            <ButtonNoPadding
-                onClick={open}
-                type={'link'}
-            >
-                创建项目
-            </ButtonNoPadding>
         </ContenetContainer>
 
     )
     return (
         <Popover placement={'bottom'} content={content} onVisibleChange={() => refetch()}>
-            <span>项目</span>
+            <span>组员</span>
         </Popover>
     )
 }
