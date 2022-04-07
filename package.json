@@ -39,7 +39,9 @@
     "build": "craco build",
     "test": "craco test",
     "eject": "react-scripts eject",
-    "json-server": "json-server __json_server__mock__/db.json --watch --port 3001 --middlewares ./__json_server__mock__/middleware.js"
+    "json-server": "json-server __json_server__mock__/db.json --watch --port 3001 --middlewares ./__json_server__mock__/middleware.js",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d build -r git@github.com:eatureide/eatureide.github.io.git -b main"
   },
   "eslintConfig": {
     "extends": [
