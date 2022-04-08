@@ -10,7 +10,7 @@ export const Header = styled.div`
         margin-left: 2em;
     }
     div{
-        font-size: 24px;
+        font-size: 20px;
         margin-left: 2em;
         cursor: pointer;
     }
@@ -25,7 +25,7 @@ export const UserName = styled.div`
 
 export const Container = styled.div`
     display: grid;
-    grid-template-rows: 6rem 1fr;
+    grid-template-rows: 5rem 1fr;
     height: 100vh;
 `
 

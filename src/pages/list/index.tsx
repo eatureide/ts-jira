@@ -4,7 +4,7 @@ import { ReactComponent as SoftwareLogo } from 'assets/software-logo.svg'
 import * as Styles from './style'
 import { handleUserRemove } from 'utils/user'
 import { SearchPannel } from './search-pannel'
-import { ProjectList } from './projects'
+import { Projects } from './projects'
 
 export const List = () => {
 
@@ -31,7 +31,7 @@ export const List = () => {
             <Styles.Main>
                 <Typography.Title level={2}>项目列表</Typography.Title>
                 <SearchPannel />
-                <ProjectList />
+                <Projects style={{ marginTop: '2em' }} />
             </Styles.Main>
         </Styles.Container>
     )

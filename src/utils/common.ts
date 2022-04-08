@@ -14,6 +14,19 @@ export const cleanObject = (obj: { [key: string]: any }) => {
     return result
 }
 
+export const useDebounse = <V>(value: V, delay?: number) => {
+    const [debounceValue, setDebounseValue] = useState(value)
+
+    useEffect(() => {
+        const timeout = setTimeout(() => setDebounseValue(value), delay)
+        return () => {
+            clearTimeout(timeout)
+        }
+    }, [value])
+
+    return debounceValue
+}
+
 export const useSetUrlSearchParam = (keys: string[]) => {
 
     const [searchParams, setSearchParm] = useSearchParams()

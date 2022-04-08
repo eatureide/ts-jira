@@ -15,7 +15,6 @@ export const register = (data: { username: string, password: string }) => {
     })
 }
 
-
 export const login = (data: { username: string, password: string }) => {
     return http({
         method: 'POST',
