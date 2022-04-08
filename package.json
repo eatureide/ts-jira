@@ -18,6 +18,7 @@
     "craco-less": "^2.0.0",
     "dayjs": "^1.11.0",
     "history": "^5.3.0",
+    "hox": "^1.1.6",
     "imooc-jira-tool": "^1.0.3",
     "jira-dev-tool": "^1.6.59",
     "qs": "^6.10.3",

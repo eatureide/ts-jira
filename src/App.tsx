@@ -1,22 +1,20 @@
-import './App.css'
-import { useAuth } from 'context/auth-context';
-import { AuthticatedApp } from 'authenticated-app';
-import { UnauthenticatedApp } from 'unauthenticated-app';
-import { ErrorBoundary } from 'components/error-boundary';
-import { FullPageErrorFallBack } from 'components/lib'
+import { Routes, Route } from 'react-router'
+import { BrowserRouter as Router, Navigate } from 'react-router-dom'
+import { LoginScreen } from 'pages/login'
+import { List } from 'pages/list'
+import { Privite } from 'components/privite'
 
 function App() {
-  const { user } = useAuth()
+
   return (
-    <div className="App">
-      {/* 处理渲染出错 */}
-      <ErrorBoundary fallbackRender={FullPageErrorFallBack}>
-        {
-          user ? <AuthticatedApp /> : <UnauthenticatedApp />
-        }
-      </ErrorBoundary>
-    </div>
-  );
+    <Router>
+      <Routes>
+        <Route path={`/list`} element={<Privite><List /></Privite>} />
+        <Route path={`/login`} element={<LoginScreen />} />
+        <Route path={'*'} element={<Navigate to={'list'} />} />
+      </Routes>
+    </Router>
+  )
 }
 
-export default App;
+export default App

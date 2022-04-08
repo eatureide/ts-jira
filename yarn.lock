@@ -1947,7 +1947,7 @@
   dependencies:
     "@types/node" "*"
 
-"@types/hoist-non-react-statics@^3.3.0":
+"@types/hoist-non-react-statics@^3.3.0", "@types/hoist-non-react-statics@^3.3.1":
   version "3.3.1"
   resolved "https://registry.yarnpkg.com/@types/hoist-non-react-statics/-/hoist-non-react-statics-3.3.1.tgz#1124aafe5118cb591977aeb1ceaaed1070eb039f"
   integrity sha512-iMIqiko6ooLrTh1joXodJK5X9xeEALT1kM5G3ZLhD3hszxBdIEd5C75U834D9mLcINgD4OyZf5uQXjkuYydWvA==
@@ -2067,6 +2067,13 @@
   version "6.1.5"
   resolved "https://registry.yarnpkg.com/@types/react-helmet/-/react-helmet-6.1.5.tgz#35f89a6b1646ee2bc342a33a9a6c8777933f9083"
   integrity sha512-/ICuy7OHZxR0YCAZLNg9r7I9aijWUWvxaPR6uTuyxe8tAj5RL4Sw1+R6NhXUtOsarkGYPmaHdBDvuXh2DIN/uA==
+  dependencies:
+    "@types/react" "*"
+
+"@types/react-reconciler@^0.26.4":
+  version "0.26.4"
+  resolved "https://registry.yarnpkg.com/@types/react-reconciler/-/react-reconciler-0.26.4.tgz#651404be172cf29b65cddf246d8d964b4e448399"
+  integrity sha512-bdx4aIBkQRDAnzc23JBFeZmVpmfLJHfHikmQukEt9qs4bQtq9f+PDbNwhR9u74FkIUyIDz1I1qJ8OF6RwadKpw==
   dependencies:
     "@types/react" "*"
 
@@ -5067,6 +5074,15 @@ hoopy@^0.1.4:
   version "0.1.4"
   resolved "https://registry.yarnpkg.com/hoopy/-/hoopy-0.1.4.tgz#609207d661100033a9a9402ad3dea677381c1b1d"
   integrity sha512-HRcs+2mr52W0K+x8RzcLzuPPmVIKMSv97RGHy0Ea9y/mpcaK+xTrjICA04KAHi4GRzxliNqNJEFYWHghy3rSfQ==
+
+hox@^1.1.6:
+  version "1.1.6"
+  resolved "https://registry.yarnpkg.com/hox/-/hox-1.1.6.tgz#018900d378df5ba4bd46d43479cf626b5d04311a"
+  integrity sha512-rAQgDVc+wbI+7Yo5cB/3wVBsL64dA5Aiz1izbtMBhFr6YJJX62euVC5wFfx0LpFP3Si7tcdDnXhjA7rSsWxOFQ==
+  dependencies:
+    "@types/hoist-non-react-statics" "^3.3.1"
+    "@types/react-reconciler" "^0.26.4"
+    react-reconciler "^0.26.2"
 
 hpack.js@^2.1.6:
   version "2.1.6"
@@ -8298,6 +8314,15 @@ react-query@^3.34.19, react-query@^3.5.10:
     "@babel/runtime" "^7.5.5"
     broadcast-channel "^3.4.1"
     match-sorter "^6.0.2"
+
+react-reconciler@^0.26.2:
+  version "0.26.2"
+  resolved "https://registry.yarnpkg.com/react-reconciler/-/react-reconciler-0.26.2.tgz#bbad0e2d1309423f76cf3c3309ac6c96e05e9d91"
+  integrity sha512-nK6kgY28HwrMNwDnMui3dvm3rCFjZrcGiuwLc5COUipBK5hWHLOxMJhSnSomirqWwjPBJKV1QcbkI0VJr7Gl1Q==
+  dependencies:
+    loose-envify "^1.1.0"
+    object-assign "^4.1.1"
+    scheduler "^0.20.2"
 
 react-redux@^7.2.0:
   version "7.2.8"
