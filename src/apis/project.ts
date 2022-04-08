@@ -1,7 +1,6 @@
 import { http } from 'utils/http'
-import { Member } from 'components/user-select'
 
-export const projectList = (data: Partial<Member>) => {
+export const projectList = (data: { name: string, personId: string }) => {
     return http({
         method: 'GET',
         path: '/projects',

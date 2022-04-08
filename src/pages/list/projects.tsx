@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { useSetUrlSearchParam } from 'utils/common'
+import { useDebounse, useSetUrlSearchParam } from 'utils/common'
 import { Table, TableProps } from 'antd'
 import { projectList } from 'apis/project'
 import { Link } from 'react-router-dom'
@@ -19,6 +19,7 @@ export const Projects = (props: TableProps<any>) => {
 
     const { paramsValue } = useSetUrlSearchParam(['name', 'personId'])
     const [projectData, setProjectData] = useState<ProjectDataType[]>([])
+    const debounceValue = useDebounse(paramsValue)
 
     const handleList = async () => {
         const data = await projectList(paramsValue)
@@ -26,9 +27,8 @@ export const Projects = (props: TableProps<any>) => {
     }
 
     useEffect(() => {
-        const timeout = setTimeout(() => handleList(), 800)
-        return () => clearTimeout(timeout)
-    }, [paramsValue])
+        handleList()
+    }, [debounceValue.name, debounceValue.personId])
 
 
     return (
