@@ -9,6 +9,7 @@ export interface Member {
     ownerId: number;
     name: string;
     id: number;
+    pin?: boolean
 }
 
 export interface UserSelectProps extends SelectProps {

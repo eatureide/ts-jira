@@ -1,16 +1,16 @@
 import { Button, Drawer, Form, Input, Typography } from 'antd'
 import { useSetUrlSearchParam } from 'utils/common'
 import styled from '@emotion/styled'
-import { addProject } from 'apis/project'
+import { addProject, editProject, projectList } from 'apis/project'
 import { UserSelect } from './user-select'
 import { useProjectTable } from 'models/project-table'
+import { useEffect } from 'react'
 
 export const ProjectModal = () => {
 
     const { projectTable } = useProjectTable()
-    const { paramsValue: projectModal, setSearchParm: setProjectModal } = useSetUrlSearchParam(['projectModal'])
-
     const [form] = Form.useForm()
+    const { paramsValue: projectModal, setSearchParm: setProjectModal } = useSetUrlSearchParam(['projectModal', 'editId'])
 
     const handleClose = () => {
         form.resetFields()
@@ -19,16 +19,34 @@ export const ProjectModal = () => {
 
     const onFinish = async ({ name, organization, personId }: { [key: string]: string }) => {
         const value = { name, personId: Number(personId), organization }
-        const res = await addProject(value)
+        const res = projectModal.editId ? await editProject({ ...value, id: Number(projectModal.editId) }) : await addProject(value)
         if (!res) return
         handleClose()
         projectTable.handleList()
     }
 
+    const handleDetail = async () => {
+        const res = await projectList({ id: Number(projectModal.editId) })
+        if (!res) return
+        const data = res[0]
+        form.setFieldsValue({ ...data, personId: data.personId + '' })
+    }
+
+    useEffect(() => {
+        if (!projectModal.editId) return
+        handleDetail()
+    }, [projectModal.editId])
+
     return (
         <Drawer forceRender width={'100%'} visible={Boolean(projectModal.projectModal)} onClose={handleClose}>
             <Container >
-                <Typography.Title level={2}>项目列表</Typography.Title>
+
+                {
+                    projectModal.editId ?
+                        <Typography.Title level={2}>编辑项目</Typography.Title> :
+                        <Typography.Title level={2}>创建项目</Typography.Title>
+                }
+
                 <Form form={form} layout={'vertical'} style={{ width: '40rem' }} onFinish={onFinish}>
                     <Form.Item label={'名称'} name={'name'} rules={[{ required: true, message: '请输入项目名' }]}>
                         <Input placeholder={'请输入项目名称'} />

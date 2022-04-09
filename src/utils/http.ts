@@ -2,8 +2,7 @@ import qs from 'qs'
 import { getToken } from 'utils/user'
 import { cleanObject } from './common'
 
-const REACT_APP_API_URL = `http://localhost:3001`
-const apiUrl = REACT_APP_API_URL
+const apiUrl = process.env.REACT_APP_API_URL
 
 interface RequestConfig extends RequestInit {
     path: string,
@@ -22,12 +21,13 @@ export const http = async (params: RequestConfig) => {
         },
         ...customConfig
     }
+    const isGET = config.method.toUpperCase() === 'GET'
 
-    if (config.method.toUpperCase() === 'GET') {
+    if (isGET) {
         path = `${path}?${qs.stringify(data)}`
     }
 
-    if (config.method.toUpperCase() === 'POST') {
+    if (!isGET) {
         config.body = JSON.stringify(data || {})
     }
 

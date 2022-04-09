@@ -16,3 +16,19 @@ export const addProject = (data: Partial<Member>) => {
         data
     })
 }
+
+export const editProject = (data: Partial<Member>) => {
+    return http({
+        method: 'PATCH',
+        path: `/projects/${data.id}`,
+        data
+    })
+}
+
+export const deleteProject = (data: Partial<Member>) => {
+    return http({
+        method: 'DELETE',
+        path: `/projects/${data.id}`,
+        data
+    })
+}
