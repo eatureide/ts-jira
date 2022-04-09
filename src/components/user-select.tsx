@@ -1,9 +1,9 @@
-import { Select } from 'antd'
+import { Select, SelectProps } from 'antd'
 import { users } from 'apis/user'
 import { useEffect, useState } from 'react'
 
 export interface Member {
-    personId: number;
+    personId: number | string;
     organization: string;
     created: number;
     ownerId: number;
@@ -11,12 +11,12 @@ export interface Member {
     id: number;
 }
 
-export interface UserSelectProps {
+export interface UserSelectProps extends SelectProps {
     onChange?: (data: string) => void
     value?: string
 }
 
-export const UserSelect = ({ onChange, value }: UserSelectProps) => {
+export const UserSelect = ({ onChange, value = '', ...props }: UserSelectProps) => {
 
     const [data, setData] = useState<Member[]>([])
 
@@ -34,7 +34,12 @@ export const UserSelect = ({ onChange, value }: UserSelectProps) => {
     }
 
     return (
-        <Select style={{ width: '160px' }} value={data.length ? value : ''} onChange={handleOnChange}>
+        <Select
+            style={{ width: '160px' }}
+            value={data.length ? value : ''}
+            onChange={handleOnChange}
+            {...props}
+        >
             <Select.Option value={''}>负责人</Select.Option>
             {
                 data.map((menmber) => (

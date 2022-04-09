@@ -31,6 +31,7 @@ export const Container = styled.div`
 
 export const SearchPannel = styled.div`
     display:flex;
+    justify-content: space-between;
 `
 
 export const Main = styled.div`

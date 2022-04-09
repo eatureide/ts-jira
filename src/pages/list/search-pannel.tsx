@@ -1,22 +1,24 @@
 import * as Styles from './style'
 import { UserSelect } from 'components/user-select'
-import { Input, Form } from 'antd'
+import { Input, Form, Button } from 'antd'
 import { useSetUrlSearchParam } from 'utils/common'
 import { cleanObject } from 'utils/common'
 import { useEffect } from 'react'
 
 export const SearchPannel = () => {
 
-    const { paramsValue, setSearchParm } = useSetUrlSearchParam(['name', 'personId'])
+    const { paramsValue: sarchParams, setSearchParm: setSearchParams } = useSetUrlSearchParam(['name', 'personId'])
+    const { setSearchParm: setProjectModal } = useSetUrlSearchParam(['projectModal'])
+
     const [form] = Form.useForm()
 
     const handleOnChange = () => {
         const values = form.getFieldsValue()
-        setSearchParm(cleanObject(values))
+        setSearchParams(cleanObject(values))
     }
 
     useEffect(() => {
-        form.setFieldsValue(paramsValue)
+        form.setFieldsValue(sarchParams)
     }, [])
 
     return (
@@ -29,6 +31,7 @@ export const SearchPannel = () => {
                     <UserSelect onChange={handleOnChange} />
                 </Form.Item>
             </Form>
+            <Button onClick={() => setProjectModal({ projectModal: 'true' })}>创建项目</Button>
         </Styles.SearchPannel>
     )
 }

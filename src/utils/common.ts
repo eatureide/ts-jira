@@ -1,5 +1,5 @@
-import { useCallback, useEffect, useMemo, useState } from 'react'
-import { useSearchParams, URLSearchParamsInit } from 'react-router-dom'
+import { useEffect, useState } from 'react'
+import { useSearchParams } from 'react-router-dom'
 
 export const isVioid = (value: unknown) => value === undefined || value === null || value === ''
 
@@ -19,9 +19,7 @@ export const useDebounse = <V>(value: V, delay = 300) => {
 
     useEffect(() => {
         const timeout = setTimeout(() => setDebounseValue(value), delay)
-        return () => {
-            clearTimeout(timeout)
-        }
+        return () => clearTimeout(timeout)
     }, [value])
 
     return debounceValue
@@ -30,13 +28,14 @@ export const useDebounse = <V>(value: V, delay = 300) => {
 export const useSetUrlSearchParam = <K extends string>(keys: K[]) => {
 
     const [searchParams, setSearchParm] = useSearchParams()
+    const initial = {} as { [key in K]: string }
     const res = keys.reduce((prev, key) => ({
         ...prev,
         [key]: searchParams.get(key) || ''
-    }), {}) as { [key in K]: string }
+    }), initial)
 
     useEffect(() => {
-        setSearchParm(res)
+        setSearchParm(cleanObject(res))
     }, [])
 
     return {

@@ -1,5 +1,5 @@
 import { useUser } from 'models/user'
-import { useEffect, useState } from 'react'
+import { useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { getToken } from 'utils/user'
 import { me } from 'apis/user'

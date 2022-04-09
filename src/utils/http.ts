@@ -1,5 +1,6 @@
 import qs from 'qs'
 import { getToken } from 'utils/user'
+import { cleanObject } from './common'
 
 const REACT_APP_API_URL = `http://localhost:3001`
 const apiUrl = REACT_APP_API_URL
@@ -11,6 +12,7 @@ interface RequestConfig extends RequestInit {
 
 export const http = async (params: RequestConfig) => {
     let { path, data, ...customConfig } = params
+    data = data ? cleanObject(data) : data
     const token = getToken()
     const config = {
         method: 'GET',

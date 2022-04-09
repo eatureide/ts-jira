@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import { useDebounse, useSetUrlSearchParam } from 'utils/common'
 import { Table, TableProps } from 'antd'
 import { projectList } from 'apis/project'
-import { Link } from 'react-router-dom'
+import { useProjectTable } from 'models/project-table'
 import dayjs from 'dayjs'
 
 interface ProjectDataType {
@@ -14,9 +14,9 @@ interface ProjectDataType {
     id: number
 }
 
-
 export const Projects = (props: TableProps<any>) => {
 
+    const { setProjectTable } = useProjectTable()
     const { paramsValue } = useSetUrlSearchParam(['name', 'personId'])
     const [projectData, setProjectData] = useState<ProjectDataType[]>([])
     const debounceValue = useDebounse(paramsValue)
@@ -30,6 +30,9 @@ export const Projects = (props: TableProps<any>) => {
         handleList()
     }, [debounceValue.name, debounceValue.personId])
 
+    useEffect(() => {
+        setProjectTable({ handleList })
+    }, [])
 
     return (
         <Table
