@@ -6,6 +6,7 @@ import { useProjectTable } from 'models/project-table'
 import { Pin } from 'components/pin'
 import { editProject, deleteProject } from 'apis/project'
 import dayjs from 'dayjs'
+import { useNavigate } from 'react-router-dom'
 
 interface ProjectDataType {
     personId: number
@@ -59,6 +60,7 @@ export const Projects = (props: TableProps<any>) => {
     const { paramsValue } = useSetUrlSearchParam(['name', 'personId'])
     const [projectData, setProjectData] = useState<ProjectDataType[]>([])
     const debounceValue = useDebounse(paramsValue)
+    const navigate = useNavigate()
 
     const handleList = async () => {
         const data = await projectList(paramsValue)
@@ -95,7 +97,15 @@ export const Projects = (props: TableProps<any>) => {
                     {
                         title: '名称',
                         sorter: (a, b) => a.name.localeCompare(b.name),
-                        render: (_, project) => project.name
+                        render: (_, project) => (
+                            <Button
+                                type={`link`}
+                                onClick={() => {
+                                    navigate(`/kanban?projectId=${project.id}`, { replace: true })
+                                }}>
+                                {project.name}
+                            </Button>
+                        )
                     },
                     {
                         key: '部门',

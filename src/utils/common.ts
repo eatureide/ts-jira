@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import { useSearchParams } from 'react-router-dom'
 
 export const isVioid = (value: unknown) => value === undefined || value === null || value === ''
@@ -33,10 +33,6 @@ export const useSetUrlSearchParam = <K extends string>(keys: K[]) => {
         ...prev,
         [key]: searchParams.get(key) || ''
     }), initial)
-
-    useEffect(() => {
-        setSearchParm(cleanObject(res))
-    }, [])
 
     return {
         paramsValue: res,
