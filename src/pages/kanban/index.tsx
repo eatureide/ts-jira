@@ -1,11 +1,18 @@
-import { PageContainer, Main } from 'components/container'
+import { PageContainer } from 'components/container'
 import { kanbans, allTasks } from 'apis/kanban'
-import { useCallback, useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useSetUrlSearchParam } from 'utils/common'
 import { Board } from './board'
 import { columnsType } from './data-type'
 import { DropResult } from 'react-beautiful-dnd'
 import lodash from 'lodash'
+import styled from '@emotion/styled'
+
+export const Main = styled.div`
+    padding: 2em;
+    display: flex;
+    align-items: stretch;
+`
 
 export const Kanban = () => {
 
@@ -25,34 +32,39 @@ export const Kanban = () => {
         const { source, destination } = result
         if (!destination) return
 
-        // if (result.type === 'COLUMN') {
-        //     const sourceIndex = source.index
-        //     const destinationIndex = destination.index
-        //     const copiedKanban = [...kanban]
-        //     const [remove] = copiedKanban.splice(sourceIndex, 1)
-        //     copiedKanban.splice(destinationIndex, 0, remove)
-        //     setKanban(copiedKanban)
-        //     return
-        // }
-
-
-        // if (result.type === 'QUOTE' && (source.droppableId !== destination.droppableId)) {
-        //     const sourceIndex = source.index
-        //     const destinationIndex = destination.index
-        //     const [destinationColumnIndex] = destination.droppableId.split('-').slice(-1)
-        //     const copiedKanban = [...kanban]
-        //     const [remove]: any = copiedKanban[sourceIndex]?.tasks?.splice(sourceIndex, 1)
-        //     copiedKanban[Number(destinationColumnIndex)]?.tasks?.splice(destinationIndex, 0, remove)
-        //     setKanban(copiedKanban)
-        //     return
-        // }
-
-        if (result.type === 'QUOTE' && (source.droppableId === destination.droppableId)) {
+        if (result.type === 'COLUMN') {
             const sourceIndex = source.index
             const destinationIndex = destination.index
-            const copiedKanban = [...kanban]
-            const [remove]: any = copiedKanban[sourceIndex]?.tasks?.splice(sourceIndex, 1)
-            copiedKanban[sourceIndex]?.tasks?.splice(destinationIndex, 0, remove)
+            const copiedKanban = lodash.cloneDeep([...kanban])
+            const [remove] = copiedKanban.splice(sourceIndex, 1)
+            copiedKanban.splice(destinationIndex, 0, remove)
+            setKanban(copiedKanban)
+            return
+        }
+
+
+        if (result.type === 'QUOTE' && (source.droppableId !== destination.droppableId)) {
+            const sourceIndex = source.index
+            const destinationIndex = destination.index
+            const [destinationColumnIndex] = destination.droppableId.split('-').slice(-1)
+            const [souceColumnIndex] = source.droppableId.split('-').slice(-1)
+            const numberDestinationColumnIndex = Number(destinationColumnIndex)
+            const numberSouceColumnIndex = Number(souceColumnIndex)
+            const copiedKanban = lodash.cloneDeep([...kanban])
+            const [remove]: any = copiedKanban[numberSouceColumnIndex]?.tasks?.splice(sourceIndex, 1)
+            copiedKanban[numberDestinationColumnIndex]?.tasks?.splice(destinationIndex, 0, remove)
+            setKanban(copiedKanban)
+            return
+        }
+
+        if (result.type === 'QUOTE' && (source.droppableId === destination.droppableId)) {
+            const [destinationColumnIndex] = destination.droppableId.split('-').slice(-1)
+            const numberDestinationColumnIndex = Number(destinationColumnIndex)
+            const sourceIndex = source.index
+            const destinationIndex = destination.index
+            const copiedKanban = lodash.cloneDeep([...kanban])
+            const [remove]: any = copiedKanban[numberDestinationColumnIndex]?.tasks?.splice(sourceIndex, 1)
+            copiedKanban[numberDestinationColumnIndex]?.tasks?.splice(destinationIndex, 0, remove)
             setKanban(copiedKanban)
             return
         }
@@ -61,7 +73,6 @@ export const Kanban = () => {
     useEffect(() => {
         handleKanbans()
     }, [projectId])
-
 
     return (
         <PageContainer>

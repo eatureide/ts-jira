@@ -1,5 +1,4 @@
-import { columnsType, rowsType } from './data-type'
-import { DragDropContext, Droppable, Draggable, DropResult, ResponderProvided, DragUpdate, DragStart } from 'react-beautiful-dnd'
+import { Draggable } from 'react-beautiful-dnd'
 import styled from '@emotion/styled'
 import { List } from './list'
 
@@ -21,6 +20,7 @@ const Container = styled.div`
   margin: 8px;
   display: flex;
   flex-direction: column;
+
 `
 
 const Title = styled.h4`
@@ -47,20 +47,23 @@ export const Column = (props: ColumnProps) => {
     const { title, index, tasks, draggableId } = props
 
     return (
-        <Draggable draggableId={draggableId} index={index}>
-            {(provided, snapshot) => (
-                <Container ref={provided.innerRef} {...provided.draggableProps}>
-                    <Header isDragging={snapshot.isDragging}>
-                        <Title {...provided.dragHandleProps}>{title}</Title>
-                    </Header>
-                    <List
-                        draggableId={draggableId}
-                        listId={draggableId}
-                        listType={`QUOTE`}
-                        tasks={tasks}
-                    />
-                </Container>
-            )}
-        </Draggable>
+        <div style={{ marginRight: '8px' }}>
+            <Draggable draggableId={draggableId} index={index}>
+                {(provided, snapshot) => (
+                    <Container ref={provided.innerRef} {...provided.draggableProps}>
+                        <Header isDragging={snapshot.isDragging}>
+                            <Title {...provided.dragHandleProps}>{title}</Title>
+                        </Header>
+                        <List
+                            draggableId={draggableId}
+                            listId={draggableId}
+                            listType={`QUOTE`}
+                            tasks={tasks}
+                        />
+                    </Container>
+                )}
+            </Draggable>
+        </div>
+
     )
 }

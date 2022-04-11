@@ -9,7 +9,8 @@ interface DragColumnProps {
 }
 
 const Container = styled.div`
-  display: inline-flex;
+  display: flex;
+  align-items: stretch;
 `
 
 export const Board = ({ columns, columnsDragEnd }: DragColumnProps) => {

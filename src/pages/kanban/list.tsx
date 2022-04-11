@@ -1,6 +1,7 @@
 import { DragDropContext, Droppable, Draggable, DropResult, ResponderProvided, DragUpdate, DragStart } from 'react-beautiful-dnd'
 import styled from '@emotion/styled'
 
+
 export const getBackgroundColor = (
     isDraggingOver: boolean,
     isDraggingFrom: boolean,
@@ -21,9 +22,10 @@ const Wrapper = styled.div`
   padding-bottom: 0;
   transition: background-color 0.2s ease, opacity 0.1s ease;
   user-select: none;
-  width: 250px;
+  width: 268px;
+  height: 100%;
+  background: #EBECF0;
 `
-
 
 interface ListProps {
     listType: string
@@ -57,15 +59,17 @@ export const List = (props: ListProps) => {
                                                 {...provided.draggableProps}
                                                 {...provided.dragHandleProps}
                                                 style={{
+                                                    ...provided.draggableProps.style,
                                                     userSelect: 'none',
                                                     padding: 16,
                                                     margin: '0 0 8px 0',
-                                                    minHeight: '50px',
+                                                    minHeight: 50,
                                                     background: snapshot.isDragging ? '#263b4a' : '#456c86',
                                                     color: 'white',
-                                                    ...provided.draggableProps.style,
                                                 }}
-                                            >{item.name}</div>
+                                            >
+                                                {item.name}
+                                            </div>
                                         )
                                     }
                                 </Draggable>
