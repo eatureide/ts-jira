@@ -5,9 +5,7 @@ export const PageContainer = ({ children }: { children: JSX.Element }) => {
     return (
         <Container>
             <PageHeader />
-            <Main>
-                {children}
-            </Main>
+            {children}
         </Container>
     )
 }

@@ -7,3 +7,10 @@ export const kanbans = (data: { projectId: string }) => {
         data
     })
 }
+
+export const allTasks = () => {
+    return http({
+        method: 'GET',
+        path: '/tasks'
+    })
+}
