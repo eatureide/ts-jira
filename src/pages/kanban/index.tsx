@@ -1,10 +1,12 @@
 import { PageHeader } from 'components/header'
-import * as Styles from './styles'
+import { PageContainer } from 'components/container'
 
 export const Kanban = () => {
     return (
-        <Styles.Container>
-            <PageHeader />
-        </Styles.Container>
+        <PageContainer>
+            <>
+                kanban
+            </>
+        </PageContainer>
     )
 }
