@@ -74,67 +74,55 @@ export const Index = () => {
             <DragDropContext
                 onDragEnd={(result: DropResult) => onDragEnd(result, columns, setColumns)}
             >
-                {
-                    Object.entries(columns).map(([id, column]) => {
-                        return (
-                            <div key={id} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-                                <div>{column.name}</div>
-                                <div style={{ marginRight: 8 }}>
-                                    <Droppable droppableId={id}>
-                                        {
-                                            (provided, snapshot) => {
-                                                return (
-                                                    <div
-                                                        {...provided.droppableProps}
-                                                        ref={provided.innerRef}
-                                                        style={{
-                                                            background: snapshot.isDraggingOver ? 'lightblue' : 'lightgrey',
-                                                            padding: 4,
-                                                            width: 250,
-                                                            minHeight: 500
-                                                        }}
-                                                    >
-                                                        {
-                                                            column.items.map((item: any, index: number) => {
-                                                                return (
-                                                                    <Draggable key={item.id} draggableId={item.id} index={index}>
-                                                                        {
-                                                                            (provided, snapshot) => {
-                                                                                return (
-                                                                                    <div
-                                                                                        ref={provided.innerRef}
-                                                                                        {...provided.draggableProps}
-                                                                                        {...provided.dragHandleProps}
-                                                                                        style={{
-                                                                                            userSelect: 'none',
-                                                                                            padding: 16,
-                                                                                            margin: '0 0 8px 0',
-                                                                                            minHeight: '50px',
-                                                                                            background: snapshot.isDragging ? '#263b4a' : '#456c86',
-                                                                                            color: 'white',
-                                                                                            ...provided.draggableProps.style
-                                                                                        }}
-                                                                                    >
-                                                                                        {item.content}
-                                                                                    </div>
-                                                                                )
-                                                                            }
-                                                                        }
-                                                                    </Draggable>
-                                                                )
-                                                            })
-                                                        }
-                                                        {provided.placeholder}
-                                                    </div>
-                                                )
-                                            }
-                                        }
-                                    </Droppable>
-                                </div>
+                {Object.entries(columns).map(([id, column]) => (
+                    (
+                        <div key={id} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+                            <div>{column.name}</div>
+                            <div style={{ marginRight: 8 }}>
+                                <Droppable droppableId={id}>
+                                    {(provided, snapshot) => (
+                                        <div
+                                            {...provided.droppableProps}
+                                            ref={provided.innerRef}
+                                            style={{
+                                                background: snapshot.isDraggingOver ? 'lightblue' : 'lightgrey',
+                                                padding: 4,
+                                                width: 250,
+                                                minHeight: 500
+                                            }}
+                                        >
+                                            {column.items.map((item: any, index: number) => (
+                                                <Draggable key={item.id} draggableId={item.id} index={index}>
+                                                    {
+                                                        (provided, snapshot) => (
+                                                            <div
+                                                                ref={provided.innerRef}
+                                                                {...provided.draggableProps}
+                                                                {...provided.dragHandleProps}
+                                                                style={{
+                                                                    userSelect: 'none',
+                                                                    padding: 16,
+                                                                    margin: '0 0 8px 0',
+                                                                    minHeight: '50px',
+                                                                    background: snapshot.isDragging ? '#263b4a' : '#456c86',
+                                                                    color: 'white',
+                                                                    ...provided.draggableProps.style
+                                                                }}
+                                                            >
+                                                                {item.content}
+                                                            </div>
+                                                        )
+                                                    }
+                                                </Draggable>
+                                            ))}
+                                            {provided.placeholder}
+                                        </div>
+                                    )}
+                                </Droppable>
                             </div>
-                        )
-                    })
-                }
+                        </div>
+                    )
+                ))}
             </DragDropContext>
         </div>
     )
