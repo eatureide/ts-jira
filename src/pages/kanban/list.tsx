@@ -1,5 +1,6 @@
 import { DragDropContext, Droppable, Draggable, DropResult, ResponderProvided, DragUpdate, DragStart } from 'react-beautiful-dnd'
 import styled from '@emotion/styled'
+import { Card } from 'antd'
 
 
 export const getBackgroundColor = (
@@ -19,6 +20,7 @@ const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
   border: 8px;
+  padding: 8px;
   padding-bottom: 0;
   transition: background-color 0.2s ease, opacity 0.1s ease;
   user-select: none;
@@ -53,7 +55,7 @@ export const List = (props: ListProps) => {
                             tasks.map((item: any, index: number) => (
                                 <Draggable key={item.id} draggableId={`task-${item.id}`} index={index}>
                                     {
-                                        (provided, snapshot) => (
+                                        (provided) => (
                                             <div
                                                 ref={provided.innerRef}
                                                 {...provided.draggableProps}
@@ -63,9 +65,8 @@ export const List = (props: ListProps) => {
                                                     userSelect: 'none',
                                                     padding: 16,
                                                     margin: '0 0 8px 0',
-                                                    minHeight: 50,
-                                                    background: snapshot.isDragging ? '#263b4a' : '#456c86',
-                                                    color: 'white',
+                                                    minHeight: 80,
+                                                    background: '#fff'
                                                 }}
                                             >
                                                 {item.name}

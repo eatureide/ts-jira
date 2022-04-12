@@ -42,7 +42,6 @@ export const Kanban = () => {
             return
         }
 
-
         if (result.type === 'QUOTE' && (source.droppableId !== destination.droppableId)) {
             const sourceIndex = source.index
             const destinationIndex = destination.index

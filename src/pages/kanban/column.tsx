@@ -10,21 +10,19 @@ const Header = styled.div`
     border-top-right-radius: 2px;
     background-color: ${({ isDragging }: { isDragging: boolean }) => isDragging ? '#E3FCEF' : '#EBECF0'};
     transition: background-color 0.2s ease;
-
     &:hover {
         background-color: '#E3FCEF';
     }
 `
 
 const Container = styled.div`
-  margin: 8px;
   display: flex;
   flex-direction: column;
-
 `
 
 const Title = styled.h4`
   padding: 8px;
+  margin: 0;
   transition: background-color ease 0.2s;
   flex-grow: 1;
   user-select: none;
