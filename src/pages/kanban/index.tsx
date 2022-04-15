@@ -14,7 +14,7 @@ export const Main = styled.div`
     align-items: stretch;
 `
 
-export const Kanban = () => {
+const Kanban = () => {
 
     const { paramsValue: { projectId } } = useSetUrlSearchParam(['projectId'])
     const [kanban, setKanban] = useState<columnsType[]>([])
@@ -81,3 +81,5 @@ export const Kanban = () => {
         </PageContainer>
     )
 }
+
+export default Kanban

@@ -4,7 +4,16 @@ import { Projects } from './projects'
 import { ProjectModal } from 'components/project-modal'
 import { PageContainer, Main } from 'components/container'
 
-export const List = () => {
+let openRequest = indexedDB.open('js-cache', 1)
+openRequest.onsuccess = function () {
+    let db = openRequest.result
+  
+    console.log(db)
+    // 继续使用 db 对象处理数据库
+}
+
+
+const List = () => {
 
     return (
         <PageContainer>
@@ -17,3 +26,5 @@ export const List = () => {
         </PageContainer>
     )
 }
+
+export default List

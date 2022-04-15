@@ -5,10 +5,10 @@ import { Signin } from './signin'
 import styled from '@emotion/styled'
 import logo from 'assets/logo.svg'
 
-export const LoginScreen = () => {
+const LoginScreen = () => {
 
     const [isRegister, setRegister] = useState(false)
-    
+
     return (
         <Contianer>
             <Logo />
@@ -42,3 +42,5 @@ export const Contianer = styled.div`
         padding: 5em;
     }
 `
+
+export default LoginScreen
