@@ -42,6 +42,14 @@ const routerList = [
       loader: () => import('pages/kanban'),
       loading: LoadingTip
     })
+  },
+  {
+    path: '/demo',
+    privite: true,
+    component: loadable({
+      loader: () => import('pages/demo'),
+      loading: LoadingTip
+    })
   }
 ]
 

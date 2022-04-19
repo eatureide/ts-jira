@@ -5,11 +5,6 @@ import reportWebVitals from './reportWebVitals'
 import { DevTools, loadServer } from 'jira-dev-tool'
 import 'antd/dist/antd.less'
 
-// fetch('http://localhost:3000/static/js/bundle.js').then(async res =>{
-//   console.log(await res.text())
-// })
-
-
 loadServer(() => (
   ReactDOM.render(
     <>
